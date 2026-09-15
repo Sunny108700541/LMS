@@ -12,6 +12,8 @@ import { useAuth } from '@/context/AuthProvider';
 import { ROLE_HOME } from '@/lib/roles';
 import type { User } from '@/lib/types';
 
+import { setSessionIndicator } from '@/lib/session';
+
 function LoginForm() {
   const router = useRouter();
   const params = useSearchParams();
@@ -29,6 +31,7 @@ function LoginForm() {
     try {
       const data = await api.post<{ user: User }>('/auth/login', { email, password });
       setUser(data.user);
+      setSessionIndicator();
       const next = params.get('next');
       router.replace(next && next.startsWith('/') ? next : ROLE_HOME[data.user.role]);
       router.refresh();

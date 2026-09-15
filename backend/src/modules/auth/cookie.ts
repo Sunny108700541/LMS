@@ -11,13 +11,19 @@ export const REFRESH_COOKIE = 'lms_refresh_token';
  * cookie is scoped to the refresh path only.
  */
 function baseOptions(): CookieOptions {
-  return {
+  const isSecure = env.isProd || env.COOKIE_SECURE;
+  const options: CookieOptions = {
     httpOnly: true,
-    secure: env.COOKIE_SECURE,
-    sameSite: env.COOKIE_SECURE ? 'none' : 'lax',
-    domain: env.COOKIE_DOMAIN,
+    secure: isSecure,
+    sameSite: isSecure ? 'none' : 'lax',
     path: '/',
   };
+
+  if (env.COOKIE_DOMAIN && env.COOKIE_DOMAIN !== 'localhost') {
+    options.domain = env.COOKIE_DOMAIN;
+  }
+
+  return options;
 }
 
 export function setAuthCookies(

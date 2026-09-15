@@ -11,6 +11,8 @@ import { api, ApiRequestError, type ApiErrorDetail } from '@/lib/api';
 import { useAuth } from '@/context/AuthProvider';
 import type { User } from '@/lib/types';
 
+import { setSessionIndicator } from '@/lib/session';
+
 export default function RegisterPage() {
   const router = useRouter();
   const { setUser } = useAuth();
@@ -37,6 +39,7 @@ export default function RegisterPage() {
         ...(form.phone ? { phone: form.phone } : {}),
       });
       setUser(data.user);
+      setSessionIndicator();
       router.replace('/apply');
       router.refresh();
     } catch (err) {

@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation';
 import { api } from '@/lib/api';
 import type { User } from '@/lib/types';
 
+import { clearSessionIndicator, setSessionIndicator } from '@/lib/session';
+
 interface AuthState {
   user: User | null;
   loading: boolean;
@@ -24,9 +26,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const data = await api.get<{ user: User }>('/auth/me');
       setUser(data.user);
+      setSessionIndicator();
       return data.user;
     } catch {
       setUser(null);
+      clearSessionIndicator();
       return null;
     } finally {
       setLoading(false);
@@ -42,6 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await api.post('/auth/logout');
     } finally {
       setUser(null);
+      clearSessionIndicator();
       router.replace('/login');
       router.refresh();
     }
