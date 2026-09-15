@@ -12,5 +12,7 @@ router.use(authenticate, authorize(Role.SALES));
 
 router.get('/leads', validate(paginationSchema, 'query'), salesController.leads);
 router.get('/stats', salesController.stats);
+router.get('/analytics', salesController.analytics);
+router.get('/borrowers', validate(paginationSchema, 'query'), salesController.borrowers);
 
 export const salesRoutes = router;

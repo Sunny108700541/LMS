@@ -14,4 +14,14 @@ export const salesController = {
   stats: asyncHandler(async (_req: Request, res: Response) => {
     return ok(res, await salesService.leadStats());
   }),
+
+  analytics: asyncHandler(async (_req: Request, res: Response) => {
+    return ok(res, await salesService.analyticsData());
+  }),
+
+  borrowers: asyncHandler(async (req: Request, res: Response) => {
+    const query = req.query as unknown as Pagination;
+    const { items, total } = await salesService.loanBorrowers(query);
+    return paginated(res, items, { page: query.page, limit: query.limit, total });
+  }),
 };

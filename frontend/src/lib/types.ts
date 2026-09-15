@@ -121,3 +121,49 @@ export interface PageMeta {
   total: number;
   totalPages: number;
 }
+
+export interface MonthlyPoint {
+  month: string;
+  count: number;
+}
+
+export interface MonthlyAmountPoint {
+  month: string;
+  sanctioned: number;
+  disbursed: number;
+  sanctionedCount: number;
+  disbursedCount: number;
+}
+
+export interface LoanStatusPoint {
+  status: string;
+  count: number;
+}
+
+export interface AnalyticsData {
+  registrationsOverTime: MonthlyPoint[];
+  monthlyLoanActivity: MonthlyAmountPoint[];
+  loanStatusBreakdown: LoanStatusPoint[];
+  leadStages: { stage: LeadStage | 'CONVERTED'; count: number }[];
+  portfolio: {
+    totalPrincipalSanctioned: number;
+    totalAmountCollected: number;
+    totalOutstanding: number;
+    conversionRate: number;
+  };
+}
+
+export interface BorrowerLoan {
+  loanId: string;
+  loanRef: string;
+  borrowerName: string;
+  borrowerEmail: string;
+  principal: number;
+  amountPaid: number;
+  outstanding: number;
+  status: string;
+  sanctionedAt: string | null;
+  disbursedAt: string | null;
+  closedAt: string | null;
+  createdAt: string;
+}
