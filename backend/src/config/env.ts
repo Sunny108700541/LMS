@@ -75,7 +75,7 @@ export const env = {
   SUPABASE_SERVICE_ROLE_KEY: secretKey,
   isProd: parsed.data.NODE_ENV === 'production',
   corsOrigins: parsed.data.CORS_ORIGIN.split(',')
-    .map((o) => o.trim())
+    .map((o) => o.trim().replace(/\/+$/, ''))
     .filter(Boolean),
 };
 

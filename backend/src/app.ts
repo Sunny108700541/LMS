@@ -21,7 +21,7 @@ export function createApp(): Application {
 
   app.use(
     helmet({
-      crossOriginResourcePolicy: { policy: 'same-site' },
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
       referrerPolicy: { policy: 'no-referrer' },
     }),
   );
@@ -30,11 +30,16 @@ export function createApp(): Application {
   app.use(
     cors({
       origin(origin, callback) {
-        if (!origin || env.corsOrigins.includes(origin)) return callback(null, true);
-        return callback(new Error('Origin not allowed by CORS'));
+        if (!origin) return callback(null, true);
+        const normalized = origin.replace(/\/+$/, '');
+        if (env.corsOrigins.includes(normalized)) {
+          return callback(null, true);
+        }
+        return callback(null, false);
       },
       credentials: true,
       methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
     }),
   );
 
