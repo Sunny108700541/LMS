@@ -2,11 +2,7 @@ import { EmploymentMode } from '../types/enums';
 
 /**
  * Business Rule Engine.
- *
- * Why it lives here and runs on the server: the rules decide whether money is
- * lent, so they are a trust boundary. The client can (and does) run the same
- * checks for instant feedback, but the server's verdict is the only one that is
- * persisted. Nothing in the API accepts a BRE result from the caller.
+ 
  */
 
 export const BRE_THRESHOLDS = {
@@ -15,11 +11,7 @@ export const BRE_THRESHOLDS = {
   MIN_MONTHLY_SALARY: 25_000,
 } as const;
 
-/**
- * Income Tax Department format: 5 letters, 4 digits, 1 letter.
- * The 4th letter encodes holder type and the 5th is the surname initial, but
- * structural validation is what an LMS can assert without an NSDL lookup.
- */
+
 export const PAN_REGEX = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
 
 export interface BreInput {
