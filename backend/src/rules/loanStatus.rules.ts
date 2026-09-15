@@ -1,12 +1,6 @@
 import { LoanStatus, Role } from '../types/enums';
 
-/**
- * A single source of truth for the loan state machine. Every transition is
- * checked here, so no controller can invent a shortcut.
- *
- *   APPLIED ──approve──> SANCTIONED ──disburse──> DISBURSED ──fully paid──> CLOSED
- *      └────reject─────> REJECTED (terminal)
- */
+
 export const LOAN_TRANSITIONS: Record<LoanStatus, LoanStatus[]> = {
   [LoanStatus.APPLIED]: [LoanStatus.SANCTIONED, LoanStatus.REJECTED],
   [LoanStatus.SANCTIONED]: [LoanStatus.DISBURSED],
